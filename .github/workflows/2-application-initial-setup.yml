@@ -48,6 +48,13 @@ jobs:
           issue-number: ${{ env.ISSUE_NUMBER }}
           direction: last
 
+      - name: Debug - Check file contents
+        run: |
+          echo "Frontend package.json:"
+          head -20 octofit-tracker/frontend/package.json
+          echo "Backend package.json:"
+          head -20 octofit-tracker/backend/package.json
+
       - name: Update comment - checking work
         uses: GrantBirki/comment@v2.1.1
         with:
