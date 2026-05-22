@@ -25,10 +25,10 @@ function normalizeResponse(payload) {
 function getApiEndpoint(resourcePath) {
   const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
   const baseUrl = codespaceName
-    ? `https://${codespaceName}-8000.app.github.dev/api`
-    : '/api'
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : ''
 
-  return `${baseUrl}/${resourcePath}/`
+  return `${baseUrl}${resourcePath}/`
 }
 
 export default function ResourcePage({ title, resourcePath }) {

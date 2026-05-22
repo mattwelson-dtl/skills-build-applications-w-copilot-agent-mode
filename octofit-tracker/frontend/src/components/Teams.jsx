@@ -1,5 +1,5 @@
 import ResourcePage from './ResourcePage.jsx'
 
 export default function Teams() {
-  return <ResourcePage title="Teams" resourcePath="teams" />
+  return <ResourcePage title="Teams" resourcePath="/api/teams" />
 }

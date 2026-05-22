@@ -1,5 +1,5 @@
 import ResourcePage from './ResourcePage.jsx'
 
 export default function Activities() {
-  return <ResourcePage title="Activities" resourcePath="activities" />
+  return <ResourcePage title="Activities" resourcePath="/api/activities" />
 }
