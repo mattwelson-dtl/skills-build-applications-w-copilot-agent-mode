@@ -22,17 +22,8 @@ function normalizeResponse(payload) {
   return { rows: [], meta: payload }
 }
 
-function getApiEndpoint(resourcePath) {
-  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
-  const baseUrl = codespaceName
-    ? `https://${codespaceName}-8000.app.github.dev`
-    : ''
-
-  return `${baseUrl}${resourcePath}/`
-}
-
-export default function ResourcePage({ title, resourcePath }) {
-  const endpoint = useMemo(() => getApiEndpoint(resourcePath), [resourcePath])
+export default function ResourcePage({ title, endpoint }) {
+  const memoizedEndpoint = useMemo(() => endpoint, [endpoint])
   const [rows, setRows] = useState([])
   const [meta, setMeta] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -46,7 +37,7 @@ export default function ResourcePage({ title, resourcePath }) {
         setLoading(true)
         setError('')
 
-        const response = await fetch(endpoint, { signal: controller.signal })
+        const response = await fetch(memoizedEndpoint, { signal: controller.signal })
 
         if (!response.ok) {
           throw new Error(`Request failed with status ${response.status}`)
@@ -72,7 +63,7 @@ export default function ResourcePage({ title, resourcePath }) {
     return () => {
       controller.abort()
     }
-  }, [endpoint])
+  }, [memoizedEndpoint])
 
   const columns = useMemo(() => {
     const first = rows[0]
@@ -88,7 +79,7 @@ export default function ResourcePage({ title, resourcePath }) {
     <section>
       <div className="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center gap-2 mb-3">
         <h2 className="h4 mb-0">{title}</h2>
-        <span className="badge text-bg-light border text-break">{endpoint}</span>
+        <span className="badge text-bg-light border text-break">{memoizedEndpoint}</span>
       </div>
 
       {loading && <div className="alert alert-info mb-0">Loading data...</div>}
@@ -119,8 +110,8 @@ export default function ResourcePage({ title, resourcePath }) {
               {rows.map((row, index) => {
                 const rowKey =
                   typeof row === 'object' && row !== null
-                    ? row.id ?? row._id ?? `${resourcePath}-${index}`
-                    : `${resourcePath}-${index}`
+                    ? row.id ?? row._id ?? `row-${index}`
+                    : `row-${index}`
 
                 return (
                   <tr key={rowKey}>
