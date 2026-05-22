@@ -74,7 +74,7 @@ async function startServer() {
   }
 
   app.listen(PORT, () => {
-    console.log(`OctoFit backend listening on port ${PORT}`);
+    console.log(`OctoFit Tracker backend listening on port ${PORT}`);
     console.log(`API base URL: ${apiBaseUrl}`);
   });
 }
